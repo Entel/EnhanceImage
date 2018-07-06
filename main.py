@@ -15,8 +15,8 @@ BATCH_SIZE = 4
 DATASET_NUM = 530
 EPOCH = 2
 MODEL_PATH = '../resize.model'
-HEIGHT = 540
-WIDTH = 960
+HEIGHT = 270
+WIDTH = 480
 DEPTH = 3
 
 class CNN(object):
@@ -39,10 +39,12 @@ class CNN(object):
         model.add(Activation('relu'))
         model.add(Convolution2D(64, (3, 3), border_mode='same'))
         model.add(Activation('relu'))
+        '''
         model.add(Convolution2D(32, (2, 2), border_mode='same'))
         model.add(Activation('relu'))
         model.add(Convolution2D(16, (5, 5), border_mode='same'))
         model.add(Activation('relu'))
+        '''
         model.add(Convolution2D(3, (7, 7), border_mode='same'))
         model.add(Activation('relu'))
 
@@ -61,8 +63,8 @@ class CNN(object):
             _train_x = []
             _train_y = []
             for i in range(ctg, ctg+16):
-                name_x = '../data/' + str(i) + '.png'
-                name_y = '../data/' + str(i) + '_.png'
+                name_x = '../data/' + str(i) + '_.png'
+                name_y = '../data/' + str(i) + '.png'
                 if os.path.isfile(name_x) and os.path.isfile(name_y):
                     img_x = cv2.imread(name_x)
                     img_y = cv2.imread(name_y)

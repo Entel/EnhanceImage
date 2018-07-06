@@ -1,18 +1,18 @@
 import os
 from PIL import Image
 
-PATH = '../tmp'
+PATH = '../data'
 FINAL_PATH = '../data/'
 
-SIZE_1 = (320, 180)
-SIZE_2 = (960, 540)
+SIZE_1 = (160, 90)
+SIZE_2 = (480, 270)
 def resize_an_img(path):
     #1. resize the image into 480*270
     #2. resize the image into 1920*1080
     img = Image.open(path)
     img = img.resize(SIZE_1, Image.ANTIALIAS)
     img = img.resize(SIZE_2, Image.ANTIALIAS)
-    full_name = path.split('tmp/')[1]
+    full_name = path.split('data/')[1]
     file_name, file_format = full_name.split('.')[0], full_name.split('.')[1]
     new_file_name = file_name + '_.' + file_format
     print new_file_name

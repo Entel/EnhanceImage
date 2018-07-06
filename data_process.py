@@ -5,7 +5,9 @@ from PIL import Image
 PATH = '../data_img/'
 IMG_PATH = '../'
 FINAL_DATA = '../data'
-TMP_PATH = '../tmp'
+TMP_PATH = '../data'
+FINAL_HEIGHT = 270
+FINAL_WIDTH = 480
 
 def rename_img():
     #rename the images and collect them from different director
@@ -31,37 +33,43 @@ def choose_img():
         try:
             img = Image.open(path)
             width, height = img.size[0], img.size[1]
-            if width >= 960 and height >= 540:
+            if width >= FINAL_WIDTH and height >= FINAL_HEIGHT:
                 shutil.copy2(path, FINAL_DATA)
         except:
             print path
 
 def resize_img(path):
-    #resize the image close to 960*540
+    #resize the image close to FINAL_WIDTH*FINAL_HEIGHT
     img = Image.open(path)
     width, height = img.size[0], img.size[1]
-    wp = float(width)/960
-    hp = float(height)/540
+    wp = float(width)/FINAL_WIDTH
+    hp = float(height)/FINAL_HEIGHT
     if wp < hp:
-        new_width = 960
+        new_width = FINAL_WIDTH
         new_height = int(height/wp)
     else:
-        new_height = 540
+        new_height = FINAL_HEIGHT
         new_width = int(width/hp)
     img = img.resize((new_width, new_height), Image.ANTIALIAS)
-    img.save(path)
+    try:
+        img.save(path)
+    except Exception, e:
+        print 'Error:' + str(e)
 
 def cut_img(path):
-    #crop the image into size 960*540
+    #crop the image into size FINAL_WIDTH*FINAL_HEIGHT
     img = Image.open(path)
     width, height = img.size[0], img.size[1]
-    area = (0, 0, 960, 540)
-    if width > 960:
-        area = ((width-960)/2, 0, (width-960)/2+960, 540)
-    elif height > 540:
-        area = (0, (height-540)/2, 960, (height-540)/2+540)
+    area = (0, 0, FINAL_WIDTH, FINAL_HEIGHT)
+    if width > FINAL_WIDTH:
+        area = ((width-FINAL_WIDTH)/2, 0, (width-FINAL_WIDTH)/2+FINAL_WIDTH, FINAL_HEIGHT)
+    elif height > FINAL_HEIGHT:
+        area = (0, (height-FINAL_HEIGHT)/2, FINAL_WIDTH, (height-FINAL_HEIGHT)/2+FINAL_HEIGHT)
     img = img.crop(area)
-    img.save(path)
+    try:
+        img.save(path)
+    except Exception, e:
+        print 'Error:' + str(e)
 
 def change_img_format(path):
     #change the format into .png
@@ -77,9 +85,9 @@ def change_img_format(path):
         print 'Error: ' + path + ' ' + str(e)
 
 #rename_img()
-#choose_img()
-print 'Finish sellection!'
 '''
+choose_img()
+print 'Finish sellection!'
 for f in os.listdir(FINAL_DATA):
     path = os.path.join(FINAL_DATA, f)
     change_img_format(path)
